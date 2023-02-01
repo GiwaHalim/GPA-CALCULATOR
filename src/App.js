@@ -4,6 +4,7 @@ import InputForm from './components/InputForm';
 import Table from './components/Table';
 import data from "./result.json"
 import {nanoid} from 'nanoid'
+import GpaValue from './components/gpaValue';
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
     }
   )
 
-  const [gpaValue, setGpaValue] = useState(" ")
+  const [gpaValue, setGpaValue] = useState(null)
 
   const handleEditClick = (event, result) =>{
     event.preventDefault();
@@ -72,7 +73,12 @@ function App() {
     const fieldValue = event.target.value;
 
     const newFormData = { ...editFormData};
+
+    if(fieldName === "grades" && !fieldValue.match(alphabets) && fieldValue !== ""){ 
+      alert('grades can only be A-F')
+    }else{
     newFormData[fieldName] = fieldValue;
+  }
 
     setEditFormData(newFormData)
 
@@ -109,15 +115,22 @@ function App() {
       grade: editFormData.grades
     }
 
-    const newResult = [ ...result ]
+    if(editedContact.courseUnits === ''|| !editedContact.grade){
+     alert('input cant be empty')
+    }else{
 
-    const index = result.findIndex((resultIndex) => resultIndex.id === editId)
-
-    newResult[index] = editedContact
-
-
-    setResult(newResult)
-    setEditId(null)
+      const newResult = [ ...result ]
+  
+      const index = result.findIndex((resultIndex) => resultIndex.id === editId)
+  
+  
+  
+      newResult[index] = editedContact
+  
+  
+      setResult(newResult)
+      setEditId(null)
+    }
 
   }
 
@@ -137,6 +150,9 @@ function App() {
   }
 
   const calculateGpa = () =>{
+    if(result.length === 0 ){
+      alert('kindly enter and submit results')
+    }else{
     let gradePoint =  0;
     let totalUnits = 0;
     let gpa = 0;
@@ -173,15 +189,15 @@ function App() {
     gpa = totalUnits/gradePoint
 
     console.log(gpa)
-    setGpaValue(`your Gpa is ${gpa}`)
+    setGpaValue(`your Gpa is ${gpa}`)}
   } 
   return (
     <div className="App">
       <div className='container'>
-        <p className='gpa'>{gpaValue}</p>
+        <GpaValue gpaValue={gpaValue}/>
         <form ><Table datas={result} infos={cred} editId={editId} handleEditClick={handleEditClick} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleEditFormSubmit={handleEditFormSubmit} handleEditCancel={handleEditCancel} handleDelete={handleDelete}/></form>
         <InputForm  infos={cred} onChange={handleAddFormChange} addFormData={addFormData} handleSubmit={handleAddFormSubmit}/>
-        <button onClick={calculateGpa}>Calculate Gpa</button>
+        <button className='gpaButton' onClick={calculateGpa}>Calculate Gpa</button>
       </div>
     </div>
   );

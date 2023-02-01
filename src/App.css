@@ -5,17 +5,37 @@
     height: 100vh;
     flex-direction: column;
     background-color: #1d2b3a;
+    color: #fff
 }
-/* .container{
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.gpa{
+    border-radius: 5%;
+    background-color: #1d2b3a;
+    width: 100%;
+    border: 1px solid rgba(225, 225, 225, 0.25);
+    display: flex;
+    justify-content: center;
+}
 
-} */
 table{
     width: 100%;
 }
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid rgba(225, 225, 225, 0.25);
     border-collapse: collapse;
+    font-size: 1em;
   }
+th, td{
+    padding: 010px;
+}
+.readOnlyRows{
+    max-width: 70px;
+}
 .form {
     display: flex;
     flex-direction: column;
@@ -25,8 +45,19 @@ table, th, td {
     border: 1px solid rgba(225, 225, 225, 0.25);
     padding: 10px;
     margin-bottom: 4px;
-    border-radius: 10%;
+    border-radius: 5px;
     font-size: 1em;
     color: #fff;
-    width: 100%;
+}
+.gpaButton{
+    margin-top: 5%;
+    background-color: #1d2b3a;
+    border: 1px solid rgba(225, 225, 225, 0.25);
+    color: #fff;
+}
+
+.submitButton{
+    background-color: #1d2b3a;
+    border: 1px solid rgba(225, 225, 225, 0.25);
+    color: #fff;
 }
