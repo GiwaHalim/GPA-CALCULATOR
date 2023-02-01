@@ -4,6 +4,7 @@ import TableHead from "./TableHead";
 
 const Table = ({ datas, infos, editId, handleEditClick, editFormData, handleEditFormChange, handleEditFormSubmit, handleEditCancel, handleDelete}) => {
     return ( 
+        datas.length === 0 ? null : 
         <div className="table">
             <table>
                 <TableHead results={datas}/>

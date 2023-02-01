@@ -10,7 +10,8 @@ function App() {
   const cred = [
     {name: "courseName", placeHolder:"Course-Name", type:"text", required:"required" },
     {name: "courseUnits", placeHolder:"Course-Unit", type:"number", required:"required"},
-    {name: "grades", placeHolder:"grade", type:"text", required:"required"}
+    {name: "grades", placeHolder:"grade", type:"text", required:"required"} 
+    // {name: 'nothing', placeHolder}
   ]
   const alphabets = /^[a-fA-F]$/;
 
@@ -163,20 +164,24 @@ function App() {
         gradePoint += result[x].courseUnits
         totalUnits += result[x].courseUnits * 1;
       }
+      if(result[x].grade === "F"){
+        gradePoint += result[x].courseUnits
+        totalUnits += result[x].courseUnits * 0;
+      }
     }
 
     gpa = totalUnits/gradePoint
 
     console.log(gpa)
-    setGpaValue(gpa)
+    setGpaValue(`your Gpa is ${gpa}`)
   } 
   return (
     <div className="App">
       <div className='container'>
+        <p className='gpa'>{gpaValue}</p>
         <form ><Table datas={result} infos={cred} editId={editId} handleEditClick={handleEditClick} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleEditFormSubmit={handleEditFormSubmit} handleEditCancel={handleEditCancel} handleDelete={handleDelete}/></form>
         <InputForm  infos={cred} onChange={handleAddFormChange} addFormData={addFormData} handleSubmit={handleAddFormSubmit}/>
         <button onClick={calculateGpa}>Calculate Gpa</button>
-        <p>your gpa is {gpaValue}</p>
       </div>
     </div>
   );

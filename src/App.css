@@ -4,10 +4,11 @@
     align-items: center;
     height: 100vh;
     flex-direction: column;
+    background-color: #1d2b3a;
 }
-.container{
-    width: 500px;
-}
+/* .container{
+
+} */
 table{
     width: 100%;
 }
@@ -15,12 +16,17 @@ table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
   }
-.form{
+.form {
     display: flex;
-    justify-content: space-between;
-    box-sizing: border-box;
-    width: fit-content;
+    flex-direction: column;
 }
 .field{
+    background-color: #1d2b3a;
+    border: 1px solid rgba(225, 225, 225, 0.25);
+    padding: 10px;
+    margin-bottom: 4px;
+    border-radius: 10%;
+    font-size: 1em;
+    color: #fff;
     width: 100%;
 }
