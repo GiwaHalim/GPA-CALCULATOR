@@ -8,13 +8,13 @@ import GpaValue from './components/gpaValue';
 
 
 function App() {
-  const cred = [
-    {name: "courseName", placeHolder:"Course-Name", type:"text", required:"required" },
-    {name: "courseUnits", placeHolder:"Course-Unit", type:"number", required:"required"},
-    {name: "grades", placeHolder:"grade", type:"text", required:"required"} 
-    // {name: 'nothing', placeHolder}
-  ]
-  const alphabets = /^[a-fA-F]$/;
+  const Joi = require('joi')
+
+  const schema = Joi.object({
+    courseName: Joi.string().required(),
+    courseUnits: Joi.number().required(),
+    grades: Joi.string().max(1).required()
+  })
 
   const [result, setResult] = useState(data)
   const [addFormData, setAddFormData] = useState({
@@ -56,12 +56,7 @@ function App() {
 
       const newFormData = { ...addFormData};
 
-      if(fieldName === "grades" && !fieldValue.match(alphabets) && fieldValue !== ""){ 
-          alert('grades can only be A-F')
-      }else{
-        newFormData[fieldName] = fieldValue;
-      }
-
+      newFormData[fieldName] = fieldValue;
 
       setAddFormData(newFormData)
   }
@@ -74,20 +69,31 @@ function App() {
 
     const newFormData = { ...editFormData};
 
-    if(fieldName === "grades" && !fieldValue.match(alphabets) && fieldValue !== ""){ 
-      alert('grades can only be A-F')
-    }else{
     newFormData[fieldName] = fieldValue;
-  }
+  
 
     setEditFormData(newFormData)
 
 
 }
+
+  const validate = () =>{
+    const res = schema.validate(addFormData, {abortEarly: false})
+
+
+    if(!res.error) return null
+     let a = []
+    for(let x of res.error.details){
+      a.push(x);
+
+      return a ;
+    }
+  }
   
   const handleAddFormSubmit = (event) =>{
     event.preventDefault();
 
+    console.log(validate())
     const addResult = {
       id: nanoid(),
       courseName: addFormData.courseName,
@@ -96,10 +102,12 @@ function App() {
     }
 
     const newResult = [...result, addResult];
+
     setResult(newResult)
 
+
     setAddFormData({
-      courseName: '',
+    courseName: '',
     courseUnits: '',
     grades: ''
     })
@@ -195,8 +203,8 @@ function App() {
     <div className="App">
       <div className='container'>
         <GpaValue gpaValue={gpaValue}/>
-        <form ><Table datas={result} infos={cred} editId={editId} handleEditClick={handleEditClick} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleEditFormSubmit={handleEditFormSubmit} handleEditCancel={handleEditCancel} handleDelete={handleDelete}/></form>
-        <InputForm  infos={cred} onChange={handleAddFormChange} addFormData={addFormData} handleSubmit={handleAddFormSubmit}/>
+        <form ><Table datas={result} editId={editId} handleEditClick={handleEditClick} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleEditFormSubmit={handleEditFormSubmit} handleEditCancel={handleEditCancel} handleDelete={handleDelete}/></form>
+        <InputForm  onChange={handleAddFormChange} addFormData={addFormData} handleSubmit={handleAddFormSubmit}/>
         <button className='gpaButton' onClick={calculateGpa}>Calculate Gpa</button>
       </div>
     </div>

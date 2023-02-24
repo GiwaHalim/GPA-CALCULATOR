@@ -47,17 +47,37 @@ th, td{
     margin-bottom: 4px;
     border-radius: 5px;
     font-size: 1em;
-    color: #fff;
+    color: #fff ;
 }
-.gpaButton{
-    margin-top: 5%;
+.field1{
     background-color: #1d2b3a;
     border: 1px solid rgba(225, 225, 225, 0.25);
+    padding: 10px;
+    margin-bottom: 4px;
+    font-size: 1em;
+    color: rgba(225, 225, 225, 0.25) ;
+}
+.gpaButton{
+    background-color:  rgb(85, 85, 129);
+    border: 1px solid rgba(225, 225, 225, 0.25);
     color: #fff;
+    margin-top: 10px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    padding: 2%;
+    padding: 3% 18% 3% 18%;
 }
 
 .submitButton{
-    background-color: #1d2b3a;
+    background-color:  rgb(85, 85, 129);
     border: 1px solid rgba(225, 225, 225, 0.25);
     color: #fff;
+    margin-top: 10px;
+    font-size: 1.3em;
+    border-radius: 5px;
+    padding: 2%;
+}
+
+.submitButton:hover, .gpaButton:hover{
+    background-color:  rgb(118, 118, 148);
 }
