@@ -44,7 +44,7 @@ th, td{
     background-color: #1d2b3a;
     border: 1px solid rgba(225, 225, 225, 0.25);
     padding: 10px;
-    margin-bottom: 4px;
+    /* margin-bottom: 4px; */
     border-radius: 5px;
     font-size: 1em;
     color: #fff ;
@@ -53,6 +53,7 @@ th, td{
     background-color: #1d2b3a;
     border: 1px solid rgba(225, 225, 225, 0.25);
     padding: 10px;
+    border-radius: 5px;
     margin-bottom: 4px;
     font-size: 1em;
     color: rgba(225, 225, 225, 0.25) ;
@@ -80,4 +81,17 @@ th, td{
 
 .submitButton:hover, .gpaButton:hover{
     background-color:  rgb(118, 118, 148);
+}
+.diver{
+    margin-bottom: 4px;
+}
+
+.errors{
+    background-color: pink;
+    border: 1px solid rgba(225, 225, 225, 0.25);
+    padding: 10px;
+    /* margin-bottom: 4px; */
+    border-radius: 5px;
+    font-size: 1em;
+    color: #7c4848 ;
 }

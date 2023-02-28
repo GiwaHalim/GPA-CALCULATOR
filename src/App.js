@@ -2,7 +2,6 @@ import './App.css';
 import React, { useState }from 'react';
 import InputForm from './components/InputForm';
 import Table from './components/Table';
-import data from "./result.json"
 import {nanoid} from 'nanoid'
 import GpaValue from './components/gpaValue';
 
@@ -11,12 +10,12 @@ function App() {
   const Joi = require('joi')
 
   const schema = Joi.object({
-    courseName: Joi.string().required(),
-    courseUnits: Joi.number().required(),
-    grades: Joi.string().max(1).required()
+    courseName: Joi.string().required().label('Course-Name'),
+    courseUnits: Joi.number().min(1).max(3).required().label('Course-Unit'),
+    grades: Joi.string().max(1).required().label('Grades')
   })
 
-  const [result, setResult] = useState(data)
+  const [result, setResult] = useState([])
   const [addFormData, setAddFormData] = useState({
     courseName: '',
     courseUnits: '',
@@ -32,6 +31,17 @@ function App() {
   )
 
   const [gpaValue, setGpaValue] = useState(null)
+
+  const [errors, setErrors] = useState(
+    {
+    }
+  )
+
+  const [errorsEdit, setErrorsEdit] = useState(
+    {
+
+    }
+  )
 
   const handleEditClick = (event, result) =>{
     event.preventDefault();
@@ -80,20 +90,40 @@ function App() {
   const validate = () =>{
     const res = schema.validate(addFormData, {abortEarly: false})
 
+    if(!res.error) return null;
 
-    if(!res.error) return null
-     let a = []
-    for(let x of res.error.details){
-      a.push(x);
+    const errors = {}
+    for(let item of res.error.details){
+      errors[item.path[0]] = item.message;
 
-      return a ;
-    }
+      return errors
+    } 
+
+  }
+
+  const validateEdit = () =>{
+    const res = schema.validate(editFormData, {abortEarly: false})
+
+    if(!res.error) return null;
+
+    const errorsEdit = {}
+    for(let item of res.error.details){
+      errorsEdit[item.path[0]] = item.message;
+
+      return errorsEdit
+    } 
+
   }
   
   const handleAddFormSubmit = (event) =>{
     event.preventDefault();
 
-    console.log(validate())
+    console.log()
+    const errors = validate()
+    setErrors(errors || {}) 
+
+    if(errors) return;
+
     const addResult = {
       id: nanoid(),
       courseName: addFormData.courseName,
@@ -115,6 +145,10 @@ function App() {
 
   const handleEditFormSubmit = (event) =>{
     event.preventDefault();
+    const errorsEdit = validateEdit()
+    setErrorsEdit(errorsEdit || {}) 
+
+    if(errorsEdit) return;
 
     const editedContact ={
       id:editId,
@@ -123,9 +157,9 @@ function App() {
       grade: editFormData.grades
     }
 
-    if(editedContact.courseUnits === ''|| !editedContact.grade){
-     alert('input cant be empty')
-    }else{
+    // if(editedContact.courseUnits === ''|| !editedContact.grade){
+    //  alert('input cant be empty')
+    // }else{
 
       const newResult = [ ...result ]
   
@@ -138,7 +172,7 @@ function App() {
   
       setResult(newResult)
       setEditId(null)
-    }
+    // }
 
   }
 
@@ -158,9 +192,7 @@ function App() {
   }
 
   const calculateGpa = () =>{
-    if(result.length === 0 ){
-      alert('kindly enter and submit results')
-    }else{
+
     let gradePoint =  0;
     let totalUnits = 0;
     let gpa = 0;
@@ -192,7 +224,6 @@ function App() {
         gradePoint += result[x].courseUnits
         totalUnits += result[x].courseUnits * 0;
       }
-    }
 
     gpa = totalUnits/gradePoint
 
@@ -203,8 +234,8 @@ function App() {
     <div className="App">
       <div className='container'>
         <GpaValue gpaValue={gpaValue}/>
-        <form ><Table datas={result} editId={editId} handleEditClick={handleEditClick} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleEditFormSubmit={handleEditFormSubmit} handleEditCancel={handleEditCancel} handleDelete={handleDelete}/></form>
-        <InputForm  onChange={handleAddFormChange} addFormData={addFormData} handleSubmit={handleAddFormSubmit}/>
+        <form ><Table datas={result} editId={editId} handleEditClick={handleEditClick} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleEditFormSubmit={handleEditFormSubmit} handleEditCancel={handleEditCancel} handleDelete={handleDelete} errors={errorsEdit}/></form>
+        <InputForm  onChange={handleAddFormChange} addFormData={addFormData} handleSubmit={handleAddFormSubmit} error={errors}/>
         <button className='gpaButton' onClick={calculateGpa}>Calculate Gpa</button>
       </div>
     </div>
